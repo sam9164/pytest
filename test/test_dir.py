@@ -4,7 +4,6 @@ Created on Sat May 16 15:12:10 2020
 
 @author: Sen
 """
-import pytest
 
 def test_tmpdir(tmpdir):
     a_dir = tmpdir.mkdir('mytmpdir')
