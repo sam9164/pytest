@@ -63,9 +63,8 @@ class DataFrameRegressionFixture(RegressionMixIn):
             )
             raise AssertionError(error_msg)
 
-
     def check_fn(self, obtained_fn, baseline_fn):
-        # __tracebackhide__ = True
+        __tracebackhide__ = True
 
         obtained_df = pd.read_csv(obtained_fn)
         baseline_df = pd.read_csv(baseline_fn)
@@ -122,7 +121,7 @@ class DataFrameRegressionFixture(RegressionMixIn):
 
 
     def check(self, data_frame: pd.DataFrame, basename=None, tolerances=None, default_tolerance=None):
-        # __tracebackhide__ = True
+        __tracebackhide__ = True
 
         for column in data_frame.columns:
             array = data_frame[column]
