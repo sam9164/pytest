@@ -19,8 +19,9 @@ class RegressionMixIn(ABC):
     @abstractmethod
     def check_fn(self, obtained_fn, baseline_fn):
         """
-        Compare two files contents. If the files differ, show the diff and write a nice HTML
-        diff file into the data directory.
+        Compare two files contents and assert if the files differ. Function can safely assume that obtained
+        file is already dumped and only care about comparison.
+
         :param Path obtained_fn: path to the obtained file during current testing
         :param Path baseline_fn: path to the baseline file
         """
@@ -40,16 +41,13 @@ class RegressionMixIn(ABC):
         """
         First run will generate the baseline result. Following attempts will compare the obtained result with the baseline.
         If baseline result needs to be rebased, just enable `force_regen` argument.
-        :param callable check_fn: A function that receives as arguments, respectively, absolute path to
-            obtained file and absolute path to expected file. It must assert if contents of file match.
-            Function can safely assume that obtained file is already dumped and only care about
-            comparison.
+
         :param callable dump_fn: A function that receive an absolute file path as argument. Implementor
             must dump file in this path.
         :param str extension: Extension of files compared by this check.
         :param str obtained_filepath: complete path to use to write the obtained file. By
             default will prepend `.obtained` before the file extension.
-        ..see: `data_regression.Check` for `basename` arguments.
+        ..see: `data_regression.check` for `basename` arguments.
         """
         import re
 
@@ -78,7 +76,6 @@ class RegressionMixIn(ABC):
         else:
             if obtained_filepath is None:
                 obtained_filepath = (self.obtained_datadir / basename).with_suffix(".obtained" + extension)
-
             dump_fn(obtained_filepath)
 
             try:

@@ -30,5 +30,5 @@ def baseline_datadir(request):
     return make_datadir(request, root_dir=baseline_root_datadir)
 
 @pytest.fixture
-def obtained_data_dir(request):
+def obtained_datadir(request):
     return make_datadir(request, root_dir=obtained_root_datadir)

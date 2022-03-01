@@ -11,6 +11,11 @@ def pytest_addoption(parser):
     )
 
 @pytest.fixture
-def data_regression(baseline_datadir, obtained_data_dir, request):
+def data_regression(baseline_datadir, obtained_datadir, request):
     from .regression.data_regression import DataRegressionFixture
-    return DataRegressionFixture(baseline_datadir, obtained_data_dir, request)
+    return DataRegressionFixture(baseline_datadir, obtained_datadir, request)
+
+@pytest.fixture
+def dataframe_regression(baseline_datadir, obtained_datadir, request):
+    from .regression.dataframe_regression import DataFrameRegressionFixture
+    return DataFrameRegressionFixture(baseline_datadir, obtained_datadir, request)

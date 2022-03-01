@@ -35,7 +35,8 @@ class DataRegressionFixture(RegressionMixIn):
 
         dict_compare_return_error(baseline_result, obtained_result)
 
-    def _dump_fn(self, filepath: Path, data_dict):
+    @staticmethod
+    def _dump_fn(filepath: Path, data_dict):
         import json
         js = json.dumps(data_dict, indent="\t", sort_keys=True)
         filepath.write_text(js)
