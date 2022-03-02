@@ -21,7 +21,7 @@ class DataFrameRegressionFixture(RegressionMixIn):
         super().__init__(baseline_datadir, obtained_datadir, request)
 
         self._tolerances_dict = {}
-        self._default_tolerance = {}
+        self._default_tolerance = dict(atol=1e-10, rtol=1e-10)
 
         self._pandas_display_option = (
             "display.precision", DataFrameRegressionFixture.DISPLAY_PRECISION,
@@ -138,7 +138,8 @@ class DataFrameRegressionFixture(RegressionMixIn):
             )
 
         self._tolerances_dict = {} if tolerances is None else tolerances
-        self._default_tolerance = dict(atol=1e-8, rtol=1e-8) if default_tolerance is None else default_tolerance
+        if default_tolerance is not None:
+            self._default_tolerance = default_tolerance
 
         with pd.option_context(*self._pandas_display_option):
             self.perform_regression_check(
