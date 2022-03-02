@@ -61,7 +61,7 @@ class RegressionMixIn(ABC):
             basename += re.sub(r"[\W]", "_", self.request.node.name)
             if basename.endswith('_'):
                 basename = basename[:-1]
-
+        basename = basename.lower()
         baseline_filepath = (self.baseline_datadir / basename).with_suffix(".baseline" + extension)
         generated_baseline_filepath = (self.obtained_datadir / basename).with_suffix(".baseline" + extension)
 
@@ -74,7 +74,7 @@ class RegressionMixIn(ABC):
             generated_baseline_filepath.parent.mkdir(parents=True, exist_ok=True)
             dump_fn(generated_baseline_filepath)
             msg = make_location_message("File not found in data directory, created:", generated_baseline_filepath)
-            pytest.xfail(msg)
+            pytest.fail(msg)
         else:
             if obtained_filepath is None:
                 obtained_filepath = (self.obtained_datadir / basename).with_suffix(".obtained" + extension)
