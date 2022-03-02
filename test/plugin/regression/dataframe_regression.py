@@ -120,7 +120,8 @@ class DataFrameRegressionFixture(RegressionMixIn):
             raise AssertionError(error_msg)
 
 
-    def check(self, data_frame: pd.DataFrame, basename=None, tolerances=None, default_tolerance=None):
+    def check(self, data_frame: pd.DataFrame, basename=None, obtained_filepath=None,
+              tolerances=None, default_tolerance=None):
         __tracebackhide__ = True
 
         for column in data_frame.columns:
@@ -143,5 +144,6 @@ class DataFrameRegressionFixture(RegressionMixIn):
             self.perform_regression_check(
                 dump_fn=partial(self.dump_fn, data_frame=data_frame),
                 extension='.csv',
-                basename=basename
+                basename=basename,
+                obtained_filepath=obtained_filepath
             )

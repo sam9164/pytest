@@ -72,7 +72,7 @@ class RegressionMixIn(ABC):
             generated_baseline_filepath.parent.mkdir(parents=True, exist_ok=True)
             dump_fn(generated_baseline_filepath)
             msg = make_location_message("File not found in data directory, created:", generated_baseline_filepath)
-            pytest.fail(msg)
+            pytest.xfail(msg)
         else:
             if obtained_filepath is None:
                 obtained_filepath = (self.obtained_datadir / basename).with_suffix(".obtained" + extension)
@@ -87,6 +87,6 @@ class RegressionMixIn(ABC):
                         "Files differ and --rebase, regenerating file at:",
                         generated_baseline_filepath
                     )
-                    pytest.fail(msg)
+                    pytest.xfail(msg)
                 else:
                     raise
