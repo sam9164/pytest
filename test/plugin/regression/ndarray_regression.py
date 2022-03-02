@@ -113,7 +113,8 @@ class NDArrayRegressionFixture(RegressionMixIn, DictCheckMixIn):
                         str(obtained - baseline) if isinstance(obtained, np.number) else ""
                     )
                     error_msg += "\n"
-
+        
+        if error_msg != "":
             raise AssertionError(error_msg)
 
     def check(self, data_dict, basename=None, obtained_filepath=None, tolerances=None, default_tolerance=None):
