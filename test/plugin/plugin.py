@@ -24,3 +24,8 @@ def dataframe_regression(baseline_datadir, obtained_datadir, request):
 def file_regression(baseline_datadir, obtained_datadir, request):
     from .regression.file_regression import FileRegressionFixture
     return FileRegressionFixture(baseline_datadir, obtained_datadir, request)
+
+@pytest.fixture
+def ndarray_regression(baseline_datadir, obtained_datadir, request):
+    from .regression.ndarray_regression import NDArrayRegressionFixture
+    return NDArrayRegressionFixture(baseline_datadir, obtained_datadir, request)
