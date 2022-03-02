@@ -1,7 +1,7 @@
 import numpy as np
 
 class DictCheckMixIn:
-    ROWFORMAT = "{:>15s} {:>20s} {:>20s}\n"
+    DICT_ROWFORMAT = "{:>15s} {:>20s} {:>20s}\n"
 
     @staticmethod
     def check_dict_key_mismatch(obtained: dict, baseline: dict):
@@ -34,8 +34,8 @@ class DictCheckMixIn:
                 else:
                     if error_msg == "":
                         error_msg += "Data types are not the same:\n"
-                        error_msg += self.ROWFORMAT.format("Key", "ObtainedType", "BaselineType")
-                    error_msg += self.ROWFORMAT.format(str(key), str(obtained_dtype_name), str(baseline_dtype_name))
+                        error_msg += self.DICT_ROWFORMAT.format("Key", "ObtainedType", "BaselineType")
+                    error_msg += self.DICT_ROWFORMAT.format(str(key), str(obtained_dtype_name), str(baseline_dtype_name))
 
         if error_msg != "":
             error_msg += "To update values, use --rebase option.\n\n"
@@ -54,8 +54,8 @@ class DictCheckMixIn:
             if obtained_shape != baseline_shape:
                 if error_msg == "":
                     error_msg += "Data shapes are not the same:\n"
-                    error_msg += self.ROWFORMAT.format("Key", "ObtainedShape", "BaselineShape")
-                error_msg += self.ROWFORMAT.format(str(key), str(obtained_shape), str(baseline_shape))
+                    error_msg += self.DICT_ROWFORMAT.format("Key", "ObtainedShape", "BaselineShape")
+                error_msg += self.DICT_ROWFORMAT.format(str(key), str(obtained_shape), str(baseline_shape))
             else:
                 key_set.add(key)
 
