@@ -36,6 +36,7 @@ class NDArrayRegressionFixture(RegressionMixIn, DictCheckMixIn):
 
 
     def check_fn(self, obtained_fn, baseline_fn):
+        __tracebackhide__ = True
         obtained_fn = Path(obtained_fn)
         baseline_fn = Path(baseline_fn)
 
@@ -128,6 +129,7 @@ class NDArrayRegressionFixture(RegressionMixIn, DictCheckMixIn):
                 default_tolerance = dict(atol=1e-10, rtol=1e-10)
             If not provided, will use the above 1e-10 for both atol and rtol.
         """
+        __tracebackhide__ = True
 
         if not isinstance(data_dict, dict):
             raise TypeError(

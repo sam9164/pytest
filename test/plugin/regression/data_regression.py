@@ -42,6 +42,7 @@ class DataRegressionFixture(RegressionMixIn):
         filepath.write_text(js)
 
     def check(self, data_dict, basename=None, obtained_filepath=None):
+        __tracebackhide__ = True
         self.perform_regression_check(
             dump_fn=partial(self._dump_fn, data_dict=data_dict),
             extension=".json",

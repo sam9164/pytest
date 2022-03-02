@@ -5,6 +5,8 @@ class DictCheckMixIn:
 
     @staticmethod
     def check_dict_key_mismatch(obtained: dict, baseline: dict):
+        __tracebackhide__ = True
+
         if set(obtained) == set(baseline):
             return set(obtained.keys()), ""
         else:
@@ -17,8 +19,9 @@ class DictCheckMixIn:
             return matched_keys, error_msg
 
     def check_dict_data_types(self, obtained: dict, baseline: dict, type_getter=lambda x: (type(x), type(x).__name__)):
-        error_msg = ""
+        __tracebackhide__ = True
 
+        error_msg = ""
         key_set = set()
         for key in set(obtained) & set(baseline):
             obtained_value = obtained[key]
@@ -42,8 +45,9 @@ class DictCheckMixIn:
         return key_set, error_msg
 
     def check_dict_data_shapes(self, obtained: dict, baseline: dict, shape_getter=lambda x: x.shape):
-        error_msg = ""
+        __tracebackhide__ = True
 
+        error_msg = ""
         key_set = set()
         for key in set(obtained) & set(baseline):
             obtained_value = obtained[key]
