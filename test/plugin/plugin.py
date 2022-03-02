@@ -29,3 +29,8 @@ def file_regression(baseline_datadir, obtained_datadir, request):
 def ndarray_regression(baseline_datadir, obtained_datadir, request):
     from .regression.ndarray_regression import NDArrayRegressionFixture
     return NDArrayRegressionFixture(baseline_datadir, obtained_datadir, request)
+
+@pytest.fixture
+def value_regression(baseline_datadir, obtained_datadir, request):
+    from .regression.value_regression import ValueRegression
+    return ValueRegression(baseline_datadir, obtained_datadir, request)

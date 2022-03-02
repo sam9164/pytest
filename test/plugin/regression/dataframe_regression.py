@@ -7,7 +7,6 @@ from .regression_base import RegressionMixIn
 from .helper import DictCheckMixIn
 
 class DataFrameRegressionFixture(RegressionMixIn, DictCheckMixIn):
-
     DISPLAY_PRECISION = 17     # Decimal places
     DISPLAY_WIDTH = 1000       # Max. Chars on outputs
     DISPLAY_MAX_COLUMNS = 1000 # Max. Number of columns

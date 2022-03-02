@@ -58,7 +58,9 @@ class RegressionMixIn(ABC):
                 basename = re.sub(r"[\W]", "_", self.request.node.cls.__name__) + "_"
             else:
                 basename = ""
-            basename += re.sub(r"[\W]", "_", self.request.node.name)[:-1]
+            basename += re.sub(r"[\W]", "_", self.request.node.name)
+            if basename.endswith('_'):
+                basename = basename[:-1]
 
         baseline_filepath = (self.baseline_datadir / basename).with_suffix(".baseline" + extension)
         generated_baseline_filepath = (self.obtained_datadir / basename).with_suffix(".baseline" + extension)
