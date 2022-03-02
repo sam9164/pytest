@@ -62,5 +62,3 @@ class DictCheckMixIn:
         if error_msg != "":
             error_msg += "To update values, use --rebase option.\n\n"
         return key_set, error_msg
-
-dict_check = DictCheckMixIn()

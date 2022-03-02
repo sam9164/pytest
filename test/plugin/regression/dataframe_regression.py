@@ -4,9 +4,9 @@ import numpy as np
 import pandas as pd
 
 from .regression_base import RegressionMixIn
+from .helper import DictCheckMixIn
 
-
-class DataFrameRegressionFixture(RegressionMixIn):
+class DataFrameRegressionFixture(RegressionMixIn, DictCheckMixIn):
 
     DISPLAY_PRECISION = 17     # Decimal places
     DISPLAY_WIDTH = 1000       # Max. Chars on outputs
@@ -36,55 +36,22 @@ class DataFrameRegressionFixture(RegressionMixIn):
             float_format=fr"%.{DataFrameRegressionFixture.DISPLAY_PRECISION}g"
         )
 
-    @staticmethod
-    def _check_data_types(k, obtained_column, baseline_column):
-        obtained_data_type = obtained_column.values.dtype
-        baseline_data_type = baseline_column.values.dtype
-        if obtained_data_type != baseline_data_type:
-            if np.issubdtype(obtained_data_type, np.number) and np.issubdtype(baseline_data_type, np.numeric):
-                return
-
-            error_msg = (
-                f"Data type for data {k} are not the same between obtained and baseline.\n"
-                f"Obtained: {obtained_data_type}\n"
-                f"Baseline: {baseline_data_type}\n"
-            )
-            raise AssertionError(error_msg)
-
-    @staticmethod
-    def _check_data_shape(obtained_column, baseline_column):
-        obtained_data_shape = obtained_column.values.shape
-        baseline_data_shape = baseline_column.values.shape
-        if obtained_data_shape != baseline_data_shape:
-            error_msg = (
-                f"Obtained and baseline data shape are not the same.\n"
-                f"Obtained: {obtained_data_shape}\n"
-                f"Baseline: {baseline_data_shape}\n"
-            )
-            raise AssertionError(error_msg)
-
     def check_fn(self, obtained_fn, baseline_fn):
         __tracebackhide__ = True
 
         obtained_df = pd.read_csv(obtained_fn)
         baseline_df = pd.read_csv(baseline_fn)
 
+        keys_matched, error_msg_key = self.check_dict_key_mismatch(obtained_df, baseline_df)
+        keys_dtype_matched, error_msg_dtype = self.check_dict_data_types(obtained_df, baseline_df, type_getter=lambda x: (x.values.dtype, x.values.dtype.name))
+        keys_shape_matched, error_msg_shape = self.check_dict_data_shapes(obtained_df, baseline_df, shape_getter=lambda x: x.values.shape)
+        error_msg = error_msg_key + error_msg_dtype + error_msg_shape
+
         diff_dict = {}
-        for k in set.union(set(obtained_df.keys()), set(baseline_df.keys())):
-            obtained_column = obtained_df.get(k, None)
-            baseline_column = baseline_df.get(k, None)
-
-            if baseline_column is None:
-                raise AssertionError(f"Could not find key '{k}' in baseline results.\n")
-
-            if obtained_column is None:
-                raise AssertionError(f"Could not find key '{k}' in obtained results.\n")
-
-            self._check_data_types(k, obtained_column, baseline_column)
-            self._check_data_shape(obtained_column, baseline_column)
-
+        for k in keys_matched & keys_dtype_matched & keys_shape_matched:
+            obtained_column = obtained_df.get(k)
+            baseline_column = baseline_df.get(k)
             tolerance_args = self._tolerances_dict.get(k, self._default_tolerance)
-
 
             if np.issubdtype(obtained_column.values.dtype, np.inexact):
                 not_close_mask = ~np.isclose(
@@ -114,9 +81,11 @@ class DataFrameRegressionFixture(RegressionMixIn):
                 diff_dict[k] = diff_table
 
         if len(diff_dict) > 0:
-            error_msg = "Values are not close within tolerance.\n"
+            error_msg += "Values are not close within tolerance.\n"
             for k, diff_table in diff_dict.items():
                 error_msg += f"{k}:\n{diff_table}\n\n"
+
+        if error_msg != "":
             raise AssertionError(error_msg)
 
 
