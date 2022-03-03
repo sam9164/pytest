@@ -68,7 +68,7 @@ class ValueRegression(RegressionMixIn):
         if error_msg != "":
             raise AssertionError(error_msg)
 
-    def check(self, data, basename=None, obtained_filepath=None, default_tolerance=None):
+    def check(self, data, basename=None, suffix=None, obtained_filepath=None, default_tolerance=None):
         if np.isscalar(data):
             data = [data]
         elif isinstance(data, np.ndarray) and data.shape == ():
@@ -89,5 +89,6 @@ class ValueRegression(RegressionMixIn):
             dump_fn=partial(self.dump_fn, data=data),
             extension='.json',
             basename=basename,
+            suffix=suffix,
             obtained_filepath=obtained_filepath
         )

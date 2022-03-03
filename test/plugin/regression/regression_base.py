@@ -36,6 +36,7 @@ class RegressionMixIn(ABC):
         dump_fn,
         extension,
         basename=None,
+        suffix=None,
         obtained_filepath=None
     ):
         """
@@ -61,7 +62,9 @@ class RegressionMixIn(ABC):
             basename += re.sub(r"[\W]", "_", self.request.node.name)
             if basename.endswith('_'):
                 basename = basename[:-1]
-        basename = basename.lower()
+        if suffix:
+            basename += f'_{suffix}'
+        basename = basename.lower().replace(' ', '_')
         baseline_filepath = (self.baseline_datadir / basename).with_suffix(".baseline" + extension)
         generated_baseline_filepath = (self.obtained_datadir / basename).with_suffix(".baseline" + extension)
 

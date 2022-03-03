@@ -88,7 +88,7 @@ class DataFrameRegressionFixture(RegressionMixIn, DictCheckMixIn):
             raise AssertionError(error_msg)
 
 
-    def check(self, data_frame: pd.DataFrame, basename=None, obtained_filepath=None,
+    def check(self, data_frame: pd.DataFrame, basename=None, suffix=None, obtained_filepath=None,
               tolerances=None, default_tolerance=None):
         __tracebackhide__ = True
 
@@ -114,5 +114,6 @@ class DataFrameRegressionFixture(RegressionMixIn, DictCheckMixIn):
                 dump_fn=partial(self.dump_fn, data_frame=data_frame),
                 extension='.csv',
                 basename=basename,
+                suffix=suffix,
                 obtained_filepath=obtained_filepath
             )

@@ -63,7 +63,7 @@ class FileRegressionFixture(RegressionMixIn):
             f.write(contents)
 
     def check(self, contents, encoding=None, extension=".txt", newline=None,
-              binary=False, basename=None, obtained_filepath=None):
+              binary=False, basename=None, suffix=None, obtained_filepath=None):
         """
         Checks the file contents against baseline version.
         :param str contents: content to be verified.
@@ -90,5 +90,6 @@ class FileRegressionFixture(RegressionMixIn):
             dump_fn=partial(self._dump_fn, contents=contents, newline=newline),
             extension=extension,
             basename=basename,
+            suffix=suffix,
             obtained_filepath=obtained_filepath
         )
