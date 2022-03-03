@@ -117,7 +117,7 @@ class NDArrayRegressionFixture(RegressionMixIn, DictCheckMixIn):
         if error_msg != "":
             raise AssertionError(error_msg)
 
-    def check(self, data_dict, basename=None, suffix=suffix, obtained_filepath=None, tolerances=None, default_tolerance=None):
+    def check(self, data_dict, basename=None, suffix=None, obtained_filepath=None, tolerances=None, default_tolerance=None):
         """
         Checks a dictionary of NumPy ndarrays, containing only numeric or str data, against baseline
 
